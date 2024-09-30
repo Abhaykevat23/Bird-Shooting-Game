@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- BIRD HIT GAME -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Shooting Game</title>
+    <style>
+        .over {
+            font-size: 100px;
+            color: rgb(25, 235, 25);
+            margin-top: 250px;
+            margin-left: 400px; 
+            margin-right: 450px;
+        }
+        #main {
+            height: 630px;
+            width: 1500px;
+            overflow: hidden;
+            border: 10px solid red;
+            background-image: url('1.jpg');
+            background-size: cover;
+        }
+
+        #bird {
+            height: 80px;
+            width: 80px;
+            /* background-color: black; */
+            background-image: url('d2.png');
+            background-size: cover;
+            border-radius: 30px;
+            cursor: crosshair;
+        }
+
+        .span {
+            margin-left: 600px;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        button {
+            font-size: 30px;
+            font-weight: 600;
+            background-color: lime;
+        }
+    </style>
+    <script src="j.min.js"></script>
+    <script>
+        var count = 0;
+        var time=900;
+        function t() {
+            setInterval("check()", time);     
+        }
+        function check() {
+            var x = parseInt(Math.random() * 1300);
+            var y = parseInt(Math.random() * 400);
+            // alert("x="+ x + "----- y="+y);
+            var ry = document.getElementById("bird").style.marginTop = y + "px";
+            var rx = document.getElementById("bird").style.marginLeft = x + "px";
+        }
+        $(document).ready(function () {
+            $("#bird").click(function () { 
+                var audio= new Audio("ds.mp3");
+                audio.play();
+                document.getElementById("id2").innerText = count;
+                count++;
+            });
+            $("#main").click(function () { 
+                document.getElementById("id2").innerText = count;
+                // count--;   
+                if(count < 1)
+                {
+                    $("#main").html("<h1 class='over' >GAME OVER  Score :- "+ count +"</h1>");
+                    $(".over").css("background-color","white");
+                }
+            });   
+        });
+    </script>
+</head>
+
+<body>
+    <span class="span"><button onclick="t()">Start</button> Score : <span id="id2">*</span></span>
+    <div id="main">
+        <div id="bird"></div>
+    </div>
+</body>
+
+</html>
