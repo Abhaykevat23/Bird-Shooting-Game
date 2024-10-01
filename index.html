@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- BIRD HIT GAME -->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bird Shooting Game</title>
+    <title>Bird Shooting Game | Abhay Kevat</title>
     <style>
-        .over {
-            font-size: 100px;
-            color: rgb(25, 235, 25);
-            margin-top: 250px;
-            margin-left: 400px; 
-            margin-right: 450px;
+        body {
+            background-color: black;
+            color: azure;
         }
+
+        .over {
+            height: 10rem;
+            width: 20rem;
+            background-color: black;
+            color: white;
+            font-size: 3rem;
+            text-align: center;
+            margin-left: 35rem;
+            margin-top: 16rem;
+        }
+
         #main {
-            height: 630px;
+            height: 89vh;
             width: 1500px;
             overflow: hidden;
             border: 10px solid red;
@@ -26,7 +36,6 @@
         #bird {
             height: 80px;
             width: 80px;
-            /* background-color: black; */
             background-image: url('d2.png');
             background-size: cover;
             border-radius: 30px;
@@ -34,7 +43,7 @@
         }
 
         .span {
-            margin-left: 600px;
+            margin-left: 400px;
             font-size: 30px;
             font-weight: 600;
         }
@@ -45,45 +54,69 @@
             background-color: lime;
         }
     </style>
+</head>
+
+<body>
+    <span class="span"><button onclick="start()">Start</button>
+        &nbsp;&nbsp;&nbsp; Score : <span id="id2">*</span>
+        &nbsp; &nbsp; &nbsp; <span> Time Left : &nbsp;<span id="second"></span></span>
+    </span>
+    <div id="main">
+        <div id="bird"></div>
+        <div class='over'>
+            <span>GAME OVER</span><br>
+            <span> Score : &nbsp; <span id="count"></span> </span><br>
+            <button onclick="window.location.reload()">Restrat</button>
+        </div>
+    </div>
+
     <script src="j.min.js"></script>
+
     <script>
-        var count = 0;
-        var time=900;
-        function t() {
-            setInterval("check()", time);     
+        let count = 0;
+        let isStarted = false;
+        let intervalId = null;
+        let intervalId2 = null;
+        let seconds = 1;
+
+        function start() {
+            intervalId = setInterval("check()", 900);
+            isStarted = true;
+            intervalId2 = setInterval(() => {
+                document.getElementById("second").innerText = seconds;
+                seconds--;
+            }, 1000);
         }
+
         function check() {
-            var x = parseInt(Math.random() * 1300);
-            var y = parseInt(Math.random() * 400);
-            // alert("x="+ x + "----- y="+y);
-            var ry = document.getElementById("bird").style.marginTop = y + "px";
-            var rx = document.getElementById("bird").style.marginLeft = x + "px";
+            if (seconds < 0) {
+                over();
+            }
+            let x = parseInt(Math.random() * 1300);
+            let y = parseInt(Math.random() * 400);
+            let ry = document.getElementById("bird").style.marginTop = y + "px";
+            let rx = document.getElementById("bird").style.marginLeft = x + "px";
         }
+
         $(document).ready(function () {
-            $("#bird").click(function () { 
-                var audio= new Audio("ds.mp3");
+            $(".over").hide();
+            $("#bird").click(function () {
+                let audio = new Audio("ds.mp3");
                 audio.play();
                 document.getElementById("id2").innerText = count;
                 count++;
             });
-            $("#main").click(function () { 
-                document.getElementById("id2").innerText = count;
-                // count--;   
-                if(count < 1)
-                {
-                    $("#main").html("<h1 class='over' >GAME OVER  Score :- "+ count +"</h1>");
-                    $(".over").css("background-color","white");
-                }
-            });   
         });
+        function over() {
+            if (isStarted == true) {
+                clearInterval(intervalId2);
+                clearInterval(intervalId);
+                $(".over").show();
+                $("#bird").hide();
+                document.getElementById("count").innerText = count;
+            }
+        }
     </script>
-</head>
-
-<body>
-    <span class="span"><button onclick="t()">Start</button> Score : <span id="id2">*</span></span>
-    <div id="main">
-        <div id="bird"></div>
-    </div>
 </body>
 
 </html>
